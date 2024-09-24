@@ -1342,3 +1342,28 @@ function ESX.GetVehicleType(model)
 
     return types[vehicleType] or "automobile"
 end
+-- Việt hóa ESX
+Citizen.CreateThread(function()
+    RegisterFontFile('arial') -- the name of your .gfx, without .gfx
+    --RegisterFontFile('fontbold')
+    
+    ESX.FontId = RegisterFontId('arial font') -- the name from the .xml
+    
+    AddTextEntry('STRING', "<FONT FACE='arial font'>~a~</FONT>")
+    AddTextEntry('CUSTOM_STRING', "<FONT FACE='arial font'>~a~</FONT>")
+    --AddTextEntry('BOLD_STRING', "<FONT FACE='UVNAnhSang'>~a~</FONT>")
+    
+    while true do
+        Citizen.Wait(0)
+        local currTime = GetGameTimer()
+
+        for i=1, #ESX.TimeoutCallbacks, 1 do
+            if ESX.TimeoutCallbacks[i] then
+                if currTime >= ESX.TimeoutCallbacks[i].time then
+                    ESX.TimeoutCallbacks[i].cb()
+                    ESX.TimeoutCallbacks[i] = nil
+                end
+            end
+        end
+    end
+end)
